@@ -26,6 +26,7 @@ class Train {
 		uint8_t motor_speed = 0; // 0-5 (or 6?). 0 is STOP
 		bool motor_direction = true; //false -> backwards | true -> forwards
 		bool motor_change = false;
+		bool motor_emergency_stop = false;
 
 		// Internal state:
 		int tick_id = 0;
@@ -154,7 +155,7 @@ class Train {
 		}
 
 		void updateMotorState(){
-			if (motor_speed == 0){ // Stop
+			if (motor_speed == 0 || motor_emergency_stop){ // Stop
 				pf.combo_pwm(PWM_BRK,PWM_BRK);
 				pf.combo_pwm(PWM_FLT,PWM_FLT); //WTF?
 				return;

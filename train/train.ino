@@ -72,8 +72,10 @@ void loop() {
 
 	if (analog_value < analog_threshold){
 		tc.dbgLED(3, 0);
-		//tc.updateMotorState();
+		tc.motor_emergency_stop = true;
+		tc.updateMotorState();
 	}else{
+		tc.motor_emergency_stop = false;
 		tc.dbgLED(3, 2);
 	}
 
