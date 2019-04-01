@@ -57,7 +57,6 @@ void setup() {
 }
 
 void loop() {
-	
 	if (main_tick++ >= 255) main_tick = 0;
 	delayMicroseconds(MAIN_TICK_DELAY);
 
@@ -75,13 +74,11 @@ void loop() {
 
 	TM.start(1);
 	if (analog_value < analog_threshold){
-		tc.dbgLED(3, 0);
 		tc.motor_emergency_stop = true;
 		tc.updateMotorState();
 		doRequest("EMERGENCY_STOP", String(analog_value) + "-" + String(analog_threshold));
 	}else{
 		tc.motor_emergency_stop = false;
-		tc.dbgLED(3, 2);
 	}
 	TM.stop(1);
 
@@ -94,18 +91,17 @@ void loop() {
 	}
 
 	TM.start(4);
-	if (main_tick % 16 == 0) {
+	if (main_tick % 64 == 0) {
 		tc.updateMotorState();
 	}
 	TM.stop(4);
 	
 	TM.start(5);
-	if (main_tick % 32 == 0) {
-		//tc.tickx();
-		tc.renderx();
+	if (main_tick % 16 == 0) {
+		tc.tick();
 
 		TM.start(6);
-		if (main_tick % 64 == 0) {
+		if (main_tick % 32 == 0) {
 			tc.getLeds();
 		}
 		TM.stop(6);
