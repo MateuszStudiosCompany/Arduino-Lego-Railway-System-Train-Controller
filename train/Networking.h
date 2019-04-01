@@ -44,10 +44,10 @@ class Networking{
 			if (hostname == ""){
 				hostname = HOSTNAME;
 			}
-
-			wifiAPInit();
-			wifiClientInit();
+			
 			WiFi.hostname(hostname);
+			wifiClientInit();
+			wifiAPInit();
 			client.setDefaultSync(true);
 		}
 
