@@ -77,6 +77,7 @@ void loop() {
 		tc.motor_emergency_stop = true;
 		tc.updateMotorState();
 		doRequest("EMERGENCY_STOP", String(analog_value) + "-" + String(analog_threshold));
+		tc.getLeds();
 	}else{
 		tc.motor_emergency_stop = false;
 	}
