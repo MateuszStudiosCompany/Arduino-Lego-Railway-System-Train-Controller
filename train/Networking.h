@@ -65,23 +65,23 @@ class Networking{
 			return true;
 		}
 
-		bool wifiClientInit(String default_client_ssid = "", String default_client_pass = ""){
-			if(default_client_ssid = ""){
-				default_client_ssid = DEFAULT_CLIENT_SSID;
+		bool wifiClientInit(String client_ssid = "", String client_pass = ""){
+			if(client_ssid = ""){
+				client_ssid = DEFAULT_CLIENT_SSID;
 			}
-			if(default_client_pass = ""){
-				default_client_pass = DEFAULT_CLIENT_PASS;
+			if(client_pass = ""){
+				client_pass = DEFAULT_CLIENT_PASS;
 			}
-			WiFi.begin(default_client_ssid, default_client_pass);
+			WiFi.begin(client_ssid, client_pass);
 
-			Serial.printf("%14s:%-3d| Trying to connect to %s\n", FILE, __LINE__, default_client_ssid.c_str());
+			Serial.printf("%14s:%-3d| Trying to connect to %s\n", FILE, __LINE__, client_ssid.c_str());
 
 			if (WiFi.waitForConnectResult() != WL_CONNECTED) {
-				Serial.printf("%14s:%-3d| Failed to connect to %s\n", FILE, __LINE__, default_client_ssid.c_str());
+				Serial.printf("%14s:%-3d| Failed to connect to %s\n", FILE, __LINE__, client_ssid.c_str());
 				return false;
 			}
 
-			Serial.printf("%14s:%-3d| Connected to %s\n", FILE, __LINE__, default_client_ssid.c_str());
+			Serial.printf("%14s:%-3d| Connected to %s\n", FILE, __LINE__, client_ssid.c_str());
 			return true;
 		}
 
