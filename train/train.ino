@@ -78,6 +78,7 @@ void loop() {
 		tc.dbgLED(3, 0);
 		tc.motor_emergency_stop = true;
 		tc.updateMotorState();
+		doRequest("EMERGENCY_STOP", String(analog_value) + "-" + String(analog_threshold));
 	}else{
 		tc.motor_emergency_stop = false;
 		tc.dbgLED(3, 2);
