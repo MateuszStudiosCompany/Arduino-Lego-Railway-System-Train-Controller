@@ -124,8 +124,8 @@ class Train {
 			Serial.print("updateMotorState:");
 			if (motor_speed == 0 || motor_emergency_stop){ // Stop
 				Serial.println(" STOP!");
-				pf.combo_pwm(PWM_BRK,PWM_BRK);
-				pf.combo_pwm(PWM_FLT,PWM_FLT); //WTF?
+				pf.single_pwm(BLUE, PWM_BRK);
+				pf.single_pwm(BLUE, PWM_FLT); //WTF?
 				return;
 			}
 
@@ -140,7 +140,7 @@ class Train {
 					Serial.println(" forward");
 					base_command += motor_speed;
 				}
-				pf.combo_pwm(base_command, base_command);
+				pf.single_pwm(BLUE, base_command);
 			}
 		}
 

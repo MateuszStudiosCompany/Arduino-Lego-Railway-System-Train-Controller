@@ -81,16 +81,15 @@ void loop() {
 		tc.sendRFID(rfid.data);
 	}
 	
-	if (main_tick % 24 == 0) {
+	if (main_tick % 64 == 0 || tc.motor_change) {
 		tc.updateMotorState();
+		tc.motor_change = false;
 	}
 	
 	if (main_tick % 16 == 0) {
 		tc.tick();
 		
-		if (main_tick % 32 == 0) {
-			tc.getLeds();
-		}
+		tc.getLeds();
 	}
 	
 	return;
