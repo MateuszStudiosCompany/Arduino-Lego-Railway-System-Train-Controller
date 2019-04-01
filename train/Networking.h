@@ -51,11 +51,11 @@ class Networking{
 			client.setDefaultSync(true);
 		}
 
-		bool wifiAPInit(String ssid = "", String password = ""){
-			if (ssid == "") {
+		bool wifiAPInit(String ap_ssid = "", String ap_pass = ""){
+			if (ap_ssid == "") {
 				ap_ssid = AP_SSID;
 			}
-			if (password == "") {
+			if (ap_pass == "") {
 				ap_pass = AP_PASS;
 			}
 
@@ -90,6 +90,5 @@ class Networking{
 		}
 };
 
-extern Networking Network;
-
+Networking Network;
 #endif
