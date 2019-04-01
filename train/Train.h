@@ -56,52 +56,48 @@ class Train {
 				state_rgb_leds[i][2] = 0;
 				state_rgb_leds[i][color] = 255;
 			}
-			renderx();
+			render();
 		}
 
-		void tickx() {
+		void tick() {
 			if (tick_id++ >= 65535) tick_id = 0;
 			// TODO: send state via IR.
 
-			if (led_control_mode == 0) {
-				// Manual control
-				renderx();
-				return;
-
-			} else if (led_control_mode == 1) {
+			if (led_control_mode == 1) {
 				if (tick_id % rainbow_speed == 0) {
-					for (int i = 0; i < 3; i++) {
+					for (uint8_t i = 0; i < 3; i++) {
 						strip.setPixelColor(i, ledWheel(current_rainbow & 255));
 					}
-					if (current_rainbow++ >= 255) current_rainbow = 0;
-					strip.show();
+						if (current_rainbow++ >= 255) current_rainbow = 0;
 				}
-				digitalWrite(IO_LED_FRONT_PIN, state_led_front);
-				return;
 
 			} else if (led_control_mode == 2) {
 				if (tick_id % disco_speed == 0) {
-					for (int i = 0; i < 3; i++) {
+					for (uint8_t i = 0; i < 3; i++) {
 						strip.setPixelColor(i, ledWheel(random(10, 180) & 255));
 					}
-					strip.show();
 				}
-				digitalWrite(IO_LED_FRONT_PIN, state_led_front);
-				return;
 			}
+
+			render();
 
 		};
 
-		void renderx() {
+		void render() {
 			digitalWrite(IO_LED_FRONT_PIN, state_led_front);
-			for (uint8_t i = 0; i < 3; i++) {
-				strip.setPixelColor(i, 
-					state_rgb_leds[i][0], 
-					state_rgb_leds[i][1],
-					state_rgb_leds[i][2]
-				);
+			
+			if (led_control_mode == 0) {
+				for (uint8_t i = 0; i < 3; i++) {
+					strip.setPixelColor(i, 
+						state_rgb_leds[i][0], 
+						state_rgb_leds[i][1],
+						state_rgb_leds[i][2]
+					);
+				}
 			}
+
 			strip.show();
+
 			return;
 		};
 
@@ -140,7 +136,7 @@ class Train {
 				motor_speed = doc["motor_speed"];
 				state_led_front = doc["leds"]["front"];
 				state_led_back = doc["leds"]["back"];
-				led_control_mode = doc["leds"]["led_control_mode"];
+				led_control_mode = doc["leds"]["mode"];
 				disco_speed = doc["leds"]["disco_speed"];
 				rainbow_speed = doc["leds"]["rainbow_speed"];
 
