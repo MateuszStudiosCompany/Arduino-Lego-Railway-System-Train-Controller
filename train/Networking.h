@@ -19,16 +19,19 @@ String doRequest(String request_type, String value) {
 		+ "&value=" + value;
 	
 	if (!http.begin(client, url)){
+		#ifdef DEBUG_HTTP
 		Serial.printf("%14s:%-3d| HTTP Request to %s failed\n", FILE, __LINE__, url.c_str());
+		#endif
 		return "";
 	}
 	
 	http.setTimeout(HTTP_TIMEOUT);
 	int httpCode = http.GET();
 	String payload = http.getString();
-	
+	#ifdef DEBUG_HTTP
 	Serial.printf("%14s:%-3d| HTTP Request to %s succeded\n", FILE, __LINE__, url.c_str());
 	Serial.printf("%14s:%-3d| HTTP Response Code: %i\n", FILE, __LINE__, httpCode);
+	#endif
 	http.end();
 	return payload;
 }
