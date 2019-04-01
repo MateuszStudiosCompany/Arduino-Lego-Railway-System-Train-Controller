@@ -5,11 +5,11 @@
 // Network config
 #define HOSTNAME 				"webtrain1"
 #define DEFAULT_SERVER_IP 		"10.0.0.201"
-#define DEFAULT_SERVER_API_PATH "train_api"
+#define DEFAULT_SERVER_API_PATH "Web-Lego-Railway-System-Server"
 #define APMODE
 
-#define HTTP_TIMEOUT 			300
-#define JSON_BUFFER  			430
+#define HTTP_TIMEOUT 			100
+#define JSON_BUFFER  			600
 
 // Update config
 #define UPDATE_PATH 			"/update"
