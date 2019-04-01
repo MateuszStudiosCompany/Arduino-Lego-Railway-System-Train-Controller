@@ -117,14 +117,46 @@ class Train {
 		}
 
 		void getLeds() {
-			String payload = doRequest("GET_LEDS", "");
+			parseResponse(doRequest("GET_LEDS", ""));
+		}
+
+		void updateMotorState(){
+			Serial.print("updateMotorState:");
+			if (motor_speed == 0 || motor_emergency_stop){ // Stop
+				Serial.println(" STOP!");
+				pf.combo_pwm(PWM_BRK,PWM_BRK);
+				pf.combo_pwm(PWM_FLT,PWM_FLT); //WTF?
+				return;
+			}
+
+			uint8_t base_command = 0x0;
 			
+			if (motor_speed > 0 && motor_speed <= 5){
+				if (!motor_direction) {
+					Serial.println(" back");
+					base_command = 0x9;
+					base_command += (6 - motor_speed);
+				}else{
+					Serial.println(" forward");
+					base_command += motor_speed;
+				}
+				pf.combo_pwm(base_command, base_command);
+			}
+		}
+
+		void sendRFID(String &rfid_tag) {
+			parseResponse(doRequest("READ_TAG", rfid_tag));
+			return;
+		}
+
+		void parseResponse(String payload) {
 			if (payload != "") {
 				StaticJsonDocument<JSON_BUFFER> doc;
 				DeserializationError error = deserializeJson(doc, payload);
 
 				if (error) {
 					Serial.printf("%14s:%-3d| JSON decode error\n", FILE, __LINE__);
+					Serial.println(error.c_str());
 					return;
 				}
 
@@ -147,32 +179,6 @@ class Train {
 				}
 
 			}
-			return;
-		}
-
-		void updateMotorState(){
-			if (motor_speed == 0 || motor_emergency_stop){ // Stop
-				pf.combo_pwm(PWM_BRK,PWM_BRK);
-				pf.combo_pwm(PWM_FLT,PWM_FLT); //WTF?
-				return;
-			}
-
-			uint8_t base_command = 0x0;
-			
-			if (motor_speed > 0 && motor_speed <= 5){
-				if (!motor_direction) {
-					base_command = 0x9;
-					base_command += (6 - motor_speed);
-				}else{
-					base_command += motor_speed;
-				}
-				pf.combo_pwm(base_command, base_command);
-			}
-		}
-
-		void sendRFID(String &rfid_tag) {
-			// TODO: Parse response
-			String payload = doRequest("READ_TAG", rfid_tag);
 			return;
 		}
 };
