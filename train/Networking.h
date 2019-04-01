@@ -18,7 +18,7 @@ String doRequest(String request_type, String value) {
 		+ "&type=" + request_type 
 		+ "&value=" + value;
 	
-	if (!http.begin(client, url)){
+	if (!http.begin(client, url)) {
 		#ifdef DEBUG_HTTP
 		Serial.printf("%14s:%-3d| HTTP Request to %s failed\n", FILE, __LINE__, url.c_str());
 		#endif
@@ -40,8 +40,8 @@ String doRequest(String request_type, String value) {
 
 class Networking{
 	public:
-		bool init(String hostname = ""){
-			if(hostname = ""){
+		bool init(String hostname = "") {
+			if (hostname == ""){
 				hostname = HOSTNAME;
 			}
 
@@ -52,10 +52,10 @@ class Networking{
 		}
 
 		bool wifiAPInit(String ssid = "", String password = ""){
-			if(ssid = ""){
+			if (ssid == "") {
 				ap_ssid = AP_SSID;
 			}
-			if(password = ""){
+			if (password == "") {
 				ap_pass = AP_PASS;
 			}
 
@@ -66,10 +66,10 @@ class Networking{
 		}
 
 		bool wifiClientInit(String client_ssid = "", String client_pass = ""){
-			if(client_ssid = ""){
+			if (client_ssid == "") {
 				client_ssid = DEFAULT_CLIENT_SSID;
 			}
-			if(client_pass = ""){
+			if (client_pass == "") {
 				client_pass = DEFAULT_CLIENT_PASS;
 			}
 			WiFi.begin(client_ssid, client_pass);
