@@ -3,7 +3,6 @@ int analog_value = 0;
 int analog_threshold = 500;
 
 #include "Train.h"
-#include "Utils.h"
 #include "WebUI.h"
 #include "AppConfig.h"
 #include "Networking.h"
@@ -17,7 +16,6 @@ ESP8266HTTPUpdateServer httpUpdater;
 Train tc;
 RfidReader rfid;
 WebUI wu;
-TimeMeasure TM;
 
 void serialInit() {
 	Serial.println();
@@ -68,50 +66,32 @@ void loop() {
 	
 	httpServer.handleClient();
 
-	TM.start(0);
 	analog_value = analogRead(A0);
-	TM.stop(0);
-
-	TM.start(1);
+	
 	if (analog_value < analog_threshold){
 		tc.motor_emergency_stop = true;
 		tc.updateMotorState();
-		doRequest("EMERGENCY_STOP", String(analog_value) + "-" + String(analog_threshold));
+		tc.parseResponse(doRequest("EMERGENCY_STOP", String(analog_value) + "-" + String(analog_threshold)));
 		tc.getLeds();
 	}else{
 		tc.motor_emergency_stop = false;
 	}
-	TM.stop(1);
-
-	TM.start(2);
+	
 	if (rfid.isCardPresent()) {
-		TM.stop(2);
-		TM.start(3);
 		tc.sendRFID(rfid.data);
-		TM.stop(3);
 	}
-
-	TM.start(4);
-	if (main_tick % 64 == 0) {
+	
+	if (main_tick % 24 == 0) {
 		tc.updateMotorState();
 	}
-	TM.stop(4);
 	
-	TM.start(5);
 	if (main_tick % 16 == 0) {
 		tc.tick();
-
-		TM.start(6);
+		
 		if (main_tick % 32 == 0) {
 			tc.getLeds();
 		}
-		TM.stop(6);
 	}
-	TM.stop(5);
-
-
-	//Dump TM results here
-	//TM.dumpAll();
-	TM.resetAll(); // Reset all time measures
+	
 	return;
 }
