@@ -33,6 +33,8 @@ String doRequest(String request_type, String value) {
 	Serial.printf("%14s:%-3d| HTTP Response Code: %i\n", FILE, __LINE__, httpCode);
 	#endif
 	http.end();
+	delay(1);
+	client.stopAll();
 	return payload;
 }
 
@@ -42,6 +44,7 @@ class Networking{
 			wifiAPInit();
 			wifiClientInit();
 			WiFi.hostname(HOSTNAME);
+			client.setDefaultSync(true);
 		}
 
 		bool wifiAPInit(){
