@@ -28,7 +28,7 @@
 
 // Debug
 #define DEBUG_HTTP
-#define MAIN_TICK_DELAY 5000 // [ns]
+#define MAIN_TICK_DELAY 5 // [ns]
 
 
 // DO NOT CHANGE THIS
