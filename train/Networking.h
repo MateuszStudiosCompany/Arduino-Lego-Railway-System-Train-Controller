@@ -40,31 +40,48 @@ String doRequest(String request_type, String value) {
 
 class Networking{
 	public:
-		bool init(){
+		bool init(String hostname = ""){
+			if(hostname = ""){
+				hostname = HOSTNAME;
+			}
+
 			wifiAPInit();
 			wifiClientInit();
-			WiFi.hostname(HOSTNAME);
+			WiFi.hostname(hostname);
 			client.setDefaultSync(true);
 		}
 
-		bool wifiAPInit(){
+		bool wifiAPInit(String ssid = "", String password = ""){
+			if(ssid = ""){
+				ap_ssid = AP_SSID;
+			}
+			if(password = ""){
+				ap_pass = AP_PASS;
+			}
+
 			WiFi.mode(WIFI_AP_STA);
-			WiFi.softAP(AP_SSID, AP_PASS);
+			WiFi.softAP(ap_ssid, ap_pass);
 			Serial.printf("%14s:%-3d| Started AP with SSID: %s\n", FILE, __LINE__, AP_SSID);
 			return true;
 		}
 
-		bool wifiClientInit(){
-			WiFi.begin(DEFAULT_CLIENT_SSID, DEFAULT_CLIENT_PASS);
-			
-			Serial.printf("%14s:%-3d| Trying to connect to %s\n", FILE, __LINE__, CLIENT_SSID.c_str());
+		bool wifiClientInit(String default_client_ssid = "", String default_client_pass = ""){
+			if(default_client_ssid = ""){
+				default_client_ssid = DEFAULT_CLIENT_SSID;
+			}
+			if(default_client_pass = ""){
+				default_client_pass = DEFAULT_CLIENT_PASS;
+			}
+			WiFi.begin(default_client_ssid, default_client_pass);
+
+			Serial.printf("%14s:%-3d| Trying to connect to %s\n", FILE, __LINE__, default_client_ssid.c_str());
 
 			if (WiFi.waitForConnectResult() != WL_CONNECTED) {
-				Serial.printf("%14s:%-3d| Failed to connect to %s\n", FILE, __LINE__, CLIENT_SSID.c_str());
+				Serial.printf("%14s:%-3d| Failed to connect to %s\n", FILE, __LINE__, default_client_ssid.c_str());
 				return false;
 			}
 
-			Serial.printf("%14s:%-3d| Connected to %s\n", FILE, __LINE__, CLIENT_SSID.c_str());
+			Serial.printf("%14s:%-3d| Connected to %s\n", FILE, __LINE__, default_client_ssid.c_str());
 			return true;
 		}
 
