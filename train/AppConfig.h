@@ -3,6 +3,7 @@
 #define SERIAL_BAUD 			250000
 
 // Network config
+#define DEVICE_TYPE				"train"
 #define HOSTNAME 				"webtrain1"
 #define DEFAULT_SERVER_IP 		"10.0.0.201"
 #define DEFAULT_SERVER_API_PATH "Web-Lego-Railway-System-Server"

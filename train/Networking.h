@@ -15,6 +15,7 @@ String doRequest(String request_type, String value) {
 		+ String(SERVER_IP) + "/" 
 		+ String(SERVER_API_PATH)  + "/"
 		+ "?device=" + wlan_mac
+		+ "&devtype=" + String(DEVICE_TYPE)
 		+ "&type=" + request_type 
 		+ "&value=" + value;
 	
