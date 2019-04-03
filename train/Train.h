@@ -27,6 +27,7 @@ class Train {
 		bool motor_direction = true; //false -> backwards | true -> forwards
 		bool motor_change = false;
 		bool motor_emergency_stop = false;
+		bool beep = false;
 
 		// Internal state:
 		int tick_id = 0;
@@ -84,8 +85,6 @@ class Train {
 		};
 
 		void render() {
-			digitalWrite(IO_LED_FRONT_PIN, state_led_front);
-			
 			if (led_control_mode == 0) {
 				for (uint8_t i = 0; i < 3; i++) {
 					strip.setPixelColor(i, 
@@ -97,6 +96,18 @@ class Train {
 			}
 
 			strip.show();
+
+			if (beep){
+				tone(IO_BEEP_PIN, 400, 500);
+				for (uint8_t i; i < 2; i++) { //`i` needs to be an even digit.
+					delay(100);
+					state_led_front = !state_led_front;
+					digitalWrite(LED_FRONT_PIN, state_led_front);
+				}
+				beep = false;
+			}else{
+				digitalWrite(IO_LED_FRONT_PIN, state_led_front);
+			}
 
 			return;
 		};
@@ -171,6 +182,9 @@ class Train {
 				led_control_mode = doc["leds"]["mode"];
 				disco_speed = doc["leds"]["disco_speed"];
 				rainbow_speed = doc["leds"]["rainbow_speed"];
+				if (doc["leds"]["beep"]){
+					beep = true;
+				}
 
 				for (uint8_t i = 0; i < 3; i++) {
 					for (uint8_t j = 0; j < 3; j++) {
