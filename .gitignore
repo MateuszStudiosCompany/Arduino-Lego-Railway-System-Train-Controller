@@ -1,5 +1,3 @@
-.pio
-.pioenvs
-.piolibdeps
 .vscode/
-src/secrets.h
+build/
+train/Secrets.h

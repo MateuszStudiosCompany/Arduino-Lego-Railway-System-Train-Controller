@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Train Config App</title>
+		<meta name=viewport content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<div class="container">
+			<nav>
+				<h1>Super Clever Train</h1>
+				<a href="/update">UPDATE</a>
+			</nav>
+
+			<section class="whiteBlock">
+				<h1>Config</h1>
+				<form action="/save" id="mainform">Loading...</form>
+			</section>
+
+			<section class="whiteBlock">
+				<h1>Status</h1>
+				<table id="maintable"><tr><td>Loading...</td></tr></table>
+			</section>
+
+			<section class="whiteBlock">
+				<h1>Calibration</h1>
+				<div id="thresholdBox"></div>
+				<form action="/save">
+					<label>
+						<input name="analog_threshold" id="analog_thresholdInput" required>
+						<span class='desc'>Threshold</span>
+					</label>
+					<input name="reloadNetwork" value="false" hidden>
+					<button>Save</button>
+				</form>
+			</section>
+		</div>
+
+		<script src="app.js"></script>
+	</body>
+</html>
